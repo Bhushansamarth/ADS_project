@@ -8,17 +8,20 @@ def get_data():
     files = ['racism.json', 'neither.json', 'sexism.json']
     for file in files:
         with codecs.open('./tweet_data/' + file, 'r', encoding='utf-8') as f:
-            data = f.readlines()
-        for line in data:
-            tweet_full = json.loads(line)
+            data = f.read()
+            tweet_full = json.loads(data)
+        for line in tweet_full:
+            #print(line)
+            #tweet_full = json.loads(line)
             tweets.append({
-                'id': tweet_full['id'],
-                'text': tweet_full['text'].lower(),
-                'label': tweet_full['Annotation'],
-                'name': tweet_full['user']['name'].split()[0]
+                'id': line['id'],
+                'text': line['text'].lower(),
+                'label': line['Annotation'],
+                'name': line['user']['name'].split()[0]
                 })
 
     #pdb.set_trace()
+    print("Total tweets: ",len(tweets))
     return tweets
 
 
@@ -38,5 +41,5 @@ if __name__=="__main__":
             females_c += 1
         else:
             not_found += 1
-    print males_c, females_c, not_found
+    print(males_c, females_c, not_found)
     pdb.set_trace()
